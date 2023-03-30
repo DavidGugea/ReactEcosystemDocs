@@ -1,4 +1,4 @@
-import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice, nanoid, createAsyncThunk, createSelector } from "@reduxjs/toolkit"
 import { client } from "../../api/client";
 
 const initialState = {
@@ -92,4 +92,9 @@ export const fetchPosts = createAsyncThunk(
     const response = await client.get("/fakeApi/posts");
     return response.data;
   }
+);
+
+export const SelectPostsByUsre = createSelector(
+  [selectAllPosts, (state, userId) => userId],
+  (posts, userId) => posts.filter(post => post.user === userId)
 );
